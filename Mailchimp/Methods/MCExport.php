@@ -34,12 +34,15 @@ class MCExport extends RestClient {
             return $data;
         $result = preg_split('/$\R?^/m', $data);
 
-        $headerArray = json_decode($result[0]);
+        $header = str_replace(array('[', ']', '"'), "", $result[0]);
+        $headerArray = explode(",", $header);
         unset($result[0]);
 
         $data = array();
         foreach ($result as $value) {
-            $data[] = array_combine($headerArray, json_decode($value));
+            $clean = str_replace(array('[', ']', '"'), "", $value);
+            $cleanArray = explode(",", $clean);
+            $data[] = array_combine($headerArray, $cleanArray);
         }
 
         return $data;
@@ -58,14 +61,8 @@ class MCExport extends RestClient {
 
         $payload = array_merge(array('id' => $id), $options);
         $data = $this->requestMonkey($api, $payload, true);
-        
-        // If json_decode doesn't seem to work when there are separated objects
-        if ($jData = json_decode($data,true)) {
-            return $jData;
-        }
-        // We combine them into one object
-        $data = preg_replace('/(}\s{)/',',',$data);
-        return json_decode($data,true);
+
+        return json_decode($data, true);
     }
 
 }
