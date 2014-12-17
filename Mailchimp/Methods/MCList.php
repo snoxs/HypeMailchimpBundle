@@ -15,8 +15,7 @@ use Hype\MailchimpBundle\Mailchimp\RestClient,
     Hype\MailchimpBundle\Mailchimp\MailchimpAPIException,
     Buzz\Exception\InvalidArgumentException as InvalidArgumentException;
 
-class MCList extends RestClient
-{
+class MCList extends RestClient {
 
     protected $merge_vars = array();
     protected $grouping_id = NULL;
@@ -27,8 +26,7 @@ class MCList extends RestClient
      * @param string $listId
      * @return \Hype\MailchimpBundle\Mailchimp\Methods\MCList
      */
-    public function setListId($listId)
-    {
+    public function setListId($listId) {
         $this->listId = $listId;
         return $this;
     }
@@ -38,8 +36,7 @@ class MCList extends RestClient
      * @param int $grouping_id grouping id
      * @return \Hype\MailchimpBundle\Mailchimp\Methods\MCList
      */
-    public function setGrouping_id($grouping_id)
-    {
+    public function setGrouping_id($grouping_id) {
         $this->grouping_id = $grouping_id;
         return $this;
     }
@@ -49,8 +46,7 @@ class MCList extends RestClient
      * 
      * @param mix $merge_vars
      */
-    public function addMerge_vars($merge_vars)
-    {
+    public function addMerge_vars($merge_vars) {
         $this->merge_vars[] = $merge_vars;
         return $this;
     }
@@ -59,8 +55,7 @@ class MCList extends RestClient
      * set to merge vars
      * @param mix $merge_vars
      */
-    public function setMerge_vars($merge_vars)
-    {
+    public function setMerge_vars($merge_vars) {
         $this->merge_vars = $merge_vars;
         return $this;
     }
@@ -75,8 +70,7 @@ class MCList extends RestClient
      * @return array
      * @throws MailchimpAPIException
      */
-    public function abuseReport($start = 0, $limit = 2000, $string = null)
-    {
+    public function abuseReport($start = 0, $limit = 2000, $string = null) {
         $payload = array(
             'id' => $this->listId,
             'start' => $start,
@@ -99,8 +93,7 @@ class MCList extends RestClient
      * @return array
      * @throws MailchimpAPIException
      */
-    public function getActivity()
-    {
+    public function getActivity() {
         $payload = array(
             'id' => $this->listId
         );
@@ -113,8 +106,7 @@ class MCList extends RestClient
             return isset($data) ? $data : false;
     }
 
-    public function batchSubscribe()
-    {
+    public function batchSubscribe() {
         $payload = array(
             'id' => $this->listId
         );
@@ -142,8 +134,7 @@ class MCList extends RestClient
      * @return array
      * @throws MailchimpAPIException
      */
-    public function subscribe($email_id, $email_type = 'html', $double_optin = true, $update_existing = true, $replace_interests = true, $send_welcome = false, $email_identifier = 'email')
-    {
+    public function subscribe($email_id, $email_type = 'html', $double_optin = true, $update_existing = true, $replace_interests = true, $send_welcome = false, $email_identifier = 'email') {
         if (!in_array($email_identifier, array("email", "euid", "leid")))
             throw new InvalidArgumentException('email identifier should be one of ("email","euid","leid")');
 
@@ -182,8 +173,7 @@ class MCList extends RestClient
      * @throws InvalidArgumentException
      * @throws MailchimpAPIException
      */
-    public function unsubscribe($email_id, $delete_member = false, $send_goodbye = true, $send_notify = true, $email_identifier = 'email')
-    {
+    public function unsubscribe($email_id, $delete_member = false, $send_goodbye = true, $send_notify = true, $email_identifier = 'email') {
 
         if (!in_array($email_identifier, array("email", "euid", "leid")))
             throw new InvalidArgumentException('email identifier should be one of ("email","euid","leid")');
@@ -216,18 +206,15 @@ class MCList extends RestClient
      * @return array
      * @throws InvalidArgumentException
      */
-    public function memberInfo($email_id, $email_identifier = 'email')
-    {
+    public function memberInfo($email_id, $email_identifier = 'email') {
         if (!in_array($email_identifier, array("email", "euid", "leid")))
             throw new InvalidArgumentException('email identifier should be one of ("email","euid","leid")');
         $email_ids = array();
-        if (is_array($email_id))
-        {
+        if (is_array($email_id)) {
             foreach ($email_id as $email) {
                 $email_ids[] = array($email_identifier => $email);
             }
-        } else
-        {
+        } else {
             $email_ids = array($email_identifier => $email_id);
         }
         $payload = array(
@@ -255,8 +242,7 @@ class MCList extends RestClient
      * @return array lists
      * @throws MailchimpAPIException
      */
-    public function lists($filters = array(), $start=0, $end=100, $sort_field="created", $sort_dir="DESC")
-    {
+    public function lists($filters = array(), $start = 0, $end = 100, $sort_field = "created", $sort_dir = "DESC") {
 
         $payload = array(
             'id' => $this->listId,
@@ -287,8 +273,7 @@ class MCList extends RestClient
      * @throws InvalidArgumentException
      * @throws MailchimpAPIException
      */
-    public function updateMember($email_id, $email_type = 'html', $replace_interests = true, $email_identifier = 'email')
-    {
+    public function updateMember($email_id, $email_type = 'html', $replace_interests = true, $email_identifier = 'email') {
         if (!in_array($email_identifier, array("email", "euid", "leid")))
             throw new InvalidArgumentException('email identifier should be one of ("email","euid","leid")');
 
@@ -319,8 +304,7 @@ class MCList extends RestClient
      * @return array all groups information for specific list
      * @throws MailchimpAPIException
      */
-    public function interestGroupings($count = null)
-    {
+    public function interestGroupings($count = null) {
 
         $payload = array(
             'id' => $this->listId,
@@ -346,8 +330,7 @@ class MCList extends RestClient
      * @return array contains id of the new group
      * @throws MailchimpAPIException
      */
-    public function addInterestGroupings($name, $type, array $groups)
-    {
+    public function addInterestGroupings($name, $type, array $groups) {
 
         $payload = array(
             'id' => $this->listId,
@@ -373,8 +356,7 @@ class MCList extends RestClient
      * @return boolean true on success
      * @throws MailchimpAPIException
      */
-    public function delInterestGrouping($group_id = false)
-    {
+    public function delInterestGrouping($group_id = false) {
 
         $payload = array(
             'grouping_id' => (FALSE === $group_id) ? $this->grouping_id : $group_id
@@ -399,8 +381,7 @@ class MCList extends RestClient
      * @return boolean true on success
      * @throws MailchimpAPIException
      */
-    public function updateInterestGrouping($name, $value, $group_id = false)
-    {
+    public function updateInterestGrouping($name, $value, $group_id = false) {
 
         $payload = array(
             'grouping_id' => (FALSE === $group_id) ? $this->grouping_id : $group_id,
@@ -426,8 +407,7 @@ class MCList extends RestClient
      * @return boolean true on success
      * @throws MailchimpAPIException
      */
-    public function addInterestGroup($name, $group_id = NULL)
-    {
+    public function addInterestGroup($name, $group_id = NULL) {
 
         $payload = array(
             'id' => $this->listId,
@@ -454,8 +434,7 @@ class MCList extends RestClient
      * @return boolean true on success
      * @throws MailchimpAPIException
      */
-    public function updateInterestGroup($old_name, $new_name, $grouping_id = NULL)
-    {
+    public function updateInterestGroup($old_name, $new_name, $grouping_id = NULL) {
 
         $payload = array(
             'id' => $this->listId,
@@ -482,8 +461,7 @@ class MCList extends RestClient
      * @return boolean true on success
      * @throws MailchimpAPIException
      */
-    public function delInterestGroup($name, $grouping_id = NULL)
-    {
+    public function delInterestGroup($name, $grouping_id = NULL) {
 
         $payload = array(
             'id' => $this->listId,

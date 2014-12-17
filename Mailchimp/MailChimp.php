@@ -11,14 +11,14 @@ class MailChimp extends RestClient {
     protected $dataCenter;
     protected $container;
 
-    public function __construct($container) {
-        $this->container=$container;
-        $this->apiKey = $this->container->getParameter('hype_mail_chimp.api_key');
-        $this->listId = $this->container->getParameter('hype_mail_chimp.default_list');
+    public function __construct($apiKey, $listId, $ssl = true) {
+
+        $this->apiKey = $apiKey;
+        $this->listId = $listId;
 
         $key = preg_split("/-/", $this->apiKey);
 
-        if ($this->container->getParameter('hype_mail_chimp.ssl')) {
+        if ($ssl) {
             $this->dataCenter = 'https://' . $key[1] . '.api.mailchimp.com/';
         } else {
             $this->dataCenter = 'http://' . $key[1] . '.api.mailchimp.com/';
@@ -27,7 +27,6 @@ class MailChimp extends RestClient {
         if (!function_exists('curl_init')) {
             throw new \Exception('This bundle needs the cURL PHP extension.');
         }
-
     }
 
     /**

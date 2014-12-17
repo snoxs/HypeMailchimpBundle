@@ -16,8 +16,8 @@ use Hype\MailchimpBundle\Mailchimp\RestClient,
 
 class MCTemplate extends RestClient {
 
-    protected $templateId=null;
-    
+    protected $templateId = null;
+
     /**
      * Set template id
      * @param type $templateId
@@ -28,7 +28,7 @@ class MCTemplate extends RestClient {
         return $this;
     }
 
-        /**
+    /**
      * Create a new user template, NOT campaign content. These templates can then be applied while creating campaigns.
      * 
      * @link http://apidocs.mailchimp.com/api/2.0/templates/add.php
@@ -46,7 +46,7 @@ class MCTemplate extends RestClient {
         );
         $apiCall = 'templates/add';
         $data = $this->requestMonkey($apiCall, $payload);
-        $data = json_decode($data,true);
+        $data = json_decode($data, true);
         if (isset($data['error']))
             throw new MailchimpAPIException($data);
         else
@@ -69,7 +69,7 @@ class MCTemplate extends RestClient {
         );
         $apiCall = 'templates/list';
         $data = $this->requestMonkey($apiCall, $payload);
-        $data = json_decode($data,true);
+        $data = json_decode($data, true);
         if (isset($data['error']))
             throw new MailchimpAPIException($data);
         else
@@ -89,7 +89,7 @@ class MCTemplate extends RestClient {
         );
         $apiCall = 'templates/del';
         $data = $this->requestMonkey($apiCall, $payload);
-        $data = json_decode($data,true);
+        $data = json_decode($data, true);
         if (isset($data['error']))
             throw new MailchimpAPIException($data);
         else
@@ -111,7 +111,7 @@ class MCTemplate extends RestClient {
         );
         $apiCall = 'templates/info';
         $data = $this->requestMonkey($apiCall, $payload);
-        $data = json_decode($data,true);
+        $data = json_decode($data, true);
         if (isset($data['error']))
             throw new MailchimpAPIException($data);
         else
@@ -131,7 +131,7 @@ class MCTemplate extends RestClient {
         );
         $apiCall = 'templates/undel';
         $data = $this->requestMonkey($apiCall, $payload);
-        $data = json_decode($data,true);
+        $data = json_decode($data, true);
         if (isset($data['error']))
             throw new MailchimpAPIException($data);
         else
@@ -146,14 +146,14 @@ class MCTemplate extends RestClient {
      * @return boolean true on success
      * @throws MailchimpAPIException
      */
-    public function update( $options = array()) {
+    public function update($options = array()) {
         $payload = array(
             'template_id' => $this->templateId,
             'values' => $options
         );
         $apiCall = 'templates/update';
         $data = $this->requestMonkey($apiCall, $payload);
-        $data = json_decode($data,true);
+        $data = json_decode($data, true);
         if (isset($data['error']))
             throw new MailchimpAPIException($data);
         else

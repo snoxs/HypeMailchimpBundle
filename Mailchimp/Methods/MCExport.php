@@ -62,7 +62,7 @@ class MCExport extends RestClient {
         $payload = array_merge(array('id' => $id), $options);
         $data = $this->requestMonkey($api, $payload, true);
 
-        return json_decode($data,true);
+        return json_decode($data, true);
     }
 
 }
