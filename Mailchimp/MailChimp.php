@@ -10,11 +10,18 @@ class MailChimp extends RestClient {
     protected $listId;
     protected $dataCenter;
     protected $container;
+    protected $config;
 
     public function __construct($apiKey, $listId, $ssl = true) {
 
         $this->apiKey = $apiKey;
         $this->listId = $listId;
+        $this->config = array();
+        $this->config['api_key'] = $this->apiKey;
+        $this->config['list_id'] = $this->listId;
+        $this->config['default_list'] = $this->listId;
+        $this->config['ssl'] = true;
+        $this->config['timeout'] = 20;
 
         $key = preg_split("/-/", $this->apiKey);
 
@@ -27,6 +34,7 @@ class MailChimp extends RestClient {
         if (!function_exists('curl_init')) {
             throw new \Exception('This bundle needs the cURL PHP extension.');
         }
+        //parent::__construct($$this->config, $this->listId, $this->dataCenter);
     }
 
     /**
@@ -69,7 +77,7 @@ class MailChimp extends RestClient {
      * @return \Hype\MailchimpBundle\Mailchimp\Methods\MCList
      */
     public function getList() {
-        return new Methods\MCList($this->apiKey, $this->listId, $this->dataCenter);
+        return new Methods\MCList($this->config, $this->listId, $this->dataCenter);
     }
 
     /**
@@ -77,7 +85,7 @@ class MailChimp extends RestClient {
      * @return \Hype\MailchimpBundle\Mailchimp\Methods\MCCampaign
      */
     public function getCampaign() {
-        return new Methods\MCCampaign($this->apiKey, $this->listId, $this->dataCenter);
+        return new Methods\MCCampaign($this->config, $this->listId, $this->dataCenter);
     }
 
     /**
@@ -85,7 +93,7 @@ class MailChimp extends RestClient {
      * @return \Hype\MailchimpBundle\Mailchimp\Methods\MCExport
      */
     public function getExport() {
-        return new Methods\MCExport($this->apiKey, $this->listId, $this->dataCenter);
+        return new Methods\MCExport($this->config, $this->listId, $this->dataCenter);
     }
 
     /**
@@ -93,7 +101,7 @@ class MailChimp extends RestClient {
      * @return \Hype\MailchimpBundle\Mailchimp\MailChimpMethods\CustomMCTemplate
      */
     public function getTemplate() {
-        return new Methods\MCTemplate($this->apiKey, $this->listId, $this->dataCenter);
+        return new Methods\MCTemplate($this->config, $this->listId, $this->dataCenter);
     }
 
 }
